@@ -9,6 +9,9 @@
   },
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "vscode.typescript-language-features",
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
   "[typescript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
@@ -74,6 +77,5 @@
     "javascriptreact",
     "typescript",
     "typescriptreact"
-  ],
-
+  ]
 }
