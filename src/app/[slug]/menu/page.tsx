@@ -3,8 +3,8 @@ import { notFound } from 'next/navigation';
 
 import { getRestaurantBySlug } from '@/app/data/get-restaurant-by-slug';
 
+import RestaurantMenuCategories from './components/categories';
 import RestaurantMenuHeader from './components/header';
-
 interface MenuPageProps {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{
@@ -32,6 +32,7 @@ const MenuPage = async ({ params, searchParams }: MenuPageProps) => {
   return (
     <div>
       <RestaurantMenuHeader restaurant={restaurant} />
+      <RestaurantMenuCategories restaurant={restaurant} />
     </div>
   );
 };
