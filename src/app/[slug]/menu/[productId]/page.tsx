@@ -5,19 +5,17 @@ import { db } from '@/lib/prisma';
 import ProductDetails from './components/product-details';
 import ProductHeader from './components/product-header';
 
-interface ProductPageProps {
+interface IProductPageProps {
   params: Promise<{
     slug: string;
     productId: string;
   }>;
 }
-const ProductPage = async ({ params }: ProductPageProps) => {
+const ProductPage = async ({ params }: IProductPageProps) => {
   const { slug, productId } = await params;
 
   const product = await db.product.findFirst({
-    where: {
-      id: productId,
-    },
+    where: { id: productId },
     include: {
       restaurant: {
         select: {
