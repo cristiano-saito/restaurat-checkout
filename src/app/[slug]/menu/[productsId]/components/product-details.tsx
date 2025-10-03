@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { formatCurrency } from '@/helpers-currency';
 
 interface ProductDetailsProps {
@@ -23,8 +24,8 @@ interface ProductDetailsProps {
 const ProductDetails = ({ product }: ProductDetailsProps) => {
   const [quantity, setQuantity] = useState(1);
   return (
-    <div className='mt-[-1.5rem relative z-50 flex flex-auto flex-col rounded-t-3xl p-5'>
-      <div className='flex-auto'>
+    <div className='mt-[-1.5rem relative z-50 flex flex-auto flex-col overflow-hidden rounded-t-3xl p-5'>
+      <div className='flex-auto overflow-hidden'>
         <div className='flex items-center gap-1.5 px-5'>
           <Image
             src={product.restaurant.avatarImageUrl}
@@ -38,7 +39,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
           </p>
         </div>
         <h2 className='mt-1 px-5 text-lg font-semibold'>{product.name}</h2>
-        <div className='flex items-center justify-between'>
+        <div className='mt-3 flex items-center justify-between'>
           <h3 className='px-5 text-xl font-semibold'>
             {formatCurrency(product.price)}
           </h3>
@@ -60,17 +61,24 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
             </Button>
           </div>
         </div>
-        <div className='mt-6 space-y-3 px-5'>
-          <h4 className='font-semibold'>Sobre:</h4>
-          <p className='text-sm text-muted-foreground'>{product.description}</p>
-        </div>
-        <div className='mt-6 space-y-3 px-5'>
-          <ChefHatIcon />
-          <h4 className='font-semibold'>Ingredientes:</h4>
-          <p className='text-sm text-muted-foreground'>
-            {product.ingredients.join(', ')}
-          </p>
-        </div>
+
+        <ScrollArea className='h-full'>
+          <div className='mt-6 space-y-3 px-5'>
+            <h4 className='font-semibold'>Sobre:</h4>
+            <p className='text-sm text-muted-foreground'>
+              {product.description}
+            </p>
+          </div>
+          <div className='mt-6 space-y-3 px-5'>
+            <ChefHatIcon />
+            <h4 className='font-semibold'>Ingredientes:</h4>
+            <ul className='list-disc pl-5 text-sm text-muted-foreground'>
+              {product.ingredients.map(ingredient => (
+                <li key={ingredient}>{ingredient}</li>
+              ))}
+            </ul>
+          </div>
+        </ScrollArea>
       </div>
       <Button className='mt-6 w-full rounded-full'>
         Adicionar ao carrinho
