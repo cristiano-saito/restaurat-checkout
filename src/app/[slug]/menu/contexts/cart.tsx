@@ -2,7 +2,7 @@
 import { Product } from '@prisma/client';
 import { createContext, useState } from 'react';
 
-interface CartProduct
+export interface CartProduct
   extends Pick<Product, 'id' | 'name' | 'price' | 'imageUrl'> {
   quantity: number;
 }
@@ -14,6 +14,7 @@ interface ICartContext {
   addToCart: (product: CartProduct) => void;
   removeFromCart: (product: CartProduct) => void;
   clearCart: () => void;
+  removeAllFromCart: (product: CartProduct) => void;
 }
 
 export const CartContext = createContext<ICartContext>({
@@ -23,6 +24,7 @@ export const CartContext = createContext<ICartContext>({
   addToCart: () => { },
   removeFromCart: () => { },
   clearCart: () => { },
+  removeAllFromCart: () => { },
 });
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
@@ -45,6 +47,22 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
   const removeFromCart = (product: CartProduct) => {
+    if (product.quantity === 1) {
+      setProducts(products.filter(p => p.id !== product.id));
+    } else {
+      setProducts(
+        products.map(p =>
+          p.id === product.id ? { ...p, quantity: p.quantity - 1 } : p
+        )
+      );
+      setProducts(
+        products.map(p =>
+          p.id === product.id ? { ...p, quantity: p.quantity - 1 } : p
+        )
+      );
+    }
+  };
+  const removeAllFromCart = (product: CartProduct) => {
     setProducts(products.filter(p => p.id !== product.id));
   };
   const clearCart = () => {
@@ -60,6 +78,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         addToCart,
         removeFromCart,
         clearCart,
+        removeAllFromCart,
       }}
     >
       {children}
