@@ -1,77 +1,10 @@
 {
-  "prisma.showPrismaDataPlatformNotification": false,
-  "prisma.showPrismaDataPlatformOnboarding": false,
-  "files.associations": {
-    "*.prisma": "prisma"
-  },
-  "editor.quickSuggestions": {
-    "strings": true
-  },
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "vscode.typescript-language-features",
-  "editor.insertSpaces": true,
-  "editor.tabSize": 2,
-  "editor.detectIndentation": false,
-  "[typescript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
-  },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
-  },
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "vscode.json-language-features"
-  },
-  "[css]": {
-    "editor.defaultFormatter": "vscode.css-language-features"
-  },
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "editor.trimAutoWhitespace": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit",
-    "source.organizeImports": "explicit"
+    "source.fixAll.eslint": "explicit"
   },
-  "editor.suggest.insertMode": "replace",
-  "editor.acceptSuggestionOnCommitCharacter": true,
-  "editor.acceptSuggestionOnEnter": "on",
-  "editor.tabCompletion": "on",
-  "editor.wordBasedSuggestions": "off",
-  "editor.parameterHints.enabled": true,
-  "editor.hover.enabled": true,
-  "editor.suggest.showKeywords": true,
-  "editor.suggest.showSnippets": true,
-  "editor.suggest.showClasses": true,
-  "editor.suggest.showFunctions": true,
-  "editor.suggest.showConstructors": true,
-  "editor.suggest.showFields": true,
-  "editor.suggest.showVariables": true,
-  "editor.suggest.showMethods": true,
-  "editor.suggest.showProperties": true,
-  "editor.suggest.showConstants": true,
-  "editor.suggest.showEnums": true,
-  "editor.suggest.showEnumMembers": true,
-  "editor.suggest.showEvents": true,
-  "editor.suggest.showOperators": true,
-  "editor.suggest.showUnits": true,
-  "editor.suggest.showValues": true,
-  "editor.suggest.showText": true,
-  "editor.suggest.showColors": true,
-  "editor.suggest.showFiles": true,
-  "editor.suggest.showReferences": true,
-  "editor.suggest.showCustomcolors": true,
-  "editor.suggest.showFolders": true,
-  "editor.suggest.showTypeParameters": true,
-  "editor.suggest.showIssues": true,
-  "editor.suggest.showUsers": true,
-  "editor.suggest.showWords": true,
-  "eslint.workingDirectories": [
-    {
-      "mode": "auto"
-    }
-  ],
   "eslint.validate": [
     "javascript",
     "javascriptreact",

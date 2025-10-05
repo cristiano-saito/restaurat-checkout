@@ -20,11 +20,11 @@ interface ICartContext {
 export const CartContext = createContext<ICartContext>({
   isOpen: false,
   products: [],
-  toggleCart: () => { },
-  addToCart: () => { },
-  removeFromCart: () => { },
-  clearCart: () => { },
-  removeAllFromCart: () => { },
+  toggleCart: () => {},
+  addToCart: () => {},
+  removeFromCart: () => {},
+  clearCart: () => {},
+  removeAllFromCart: () => {},
 });
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
