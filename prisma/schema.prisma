@@ -64,6 +64,8 @@ model Order {
   restaurant        Restaurant        @relation("RestaurantOrders", fields: [restaurantId], references: [id], onDelete: Cascade)
   restaurantId      String
   consumptionMethod ConsumptionMethod
+  user              User              @relation("UserOrders", fields: [userId], references: [id], onDelete: Cascade)
+  userId            String
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
 }
@@ -80,6 +82,18 @@ model OrderProduct {
   updatedAt DateTime @updatedAt
 }
 
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  phone     String
+  cpf       String   @unique
+  orders    Order[]  @relation("UserOrders")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  role      UserRole @default(CUSTOMER)
+}
+
 enum OrderStatus {
   PENDING
   IN_PREPARATION
@@ -89,4 +103,9 @@ enum OrderStatus {
 enum ConsumptionMethod {
   TAKEAWAY
   DINE_IN
+}
+
+enum UserRole {
+  ADMIN
+  CUSTOMER
 }

@@ -1,6 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ConsumptionMethod } from '@prisma/client';
+import { Loader2Icon } from 'lucide-react';
+import { useParams, useSearchParams } from 'next/navigation';
+import { startTransition, useContext, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { PatternFormat } from 'react-number-format';
+import { toast } from 'sonner';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
@@ -24,6 +29,8 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
+import { createOrder } from '../actions/create-order';
+import { CartContext } from '../contexts/cart';
 import { isValidCpf, removeCpfPunctuation } from '../helpers/cpf';
 
 interface FinishOrderDialogProps {
@@ -46,6 +53,10 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>;
 
 const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
+  const { products } = useContext(CartContext);
+  const searchParams = useSearchParams();
+  const { slug } = useParams<{ slug: string }>();
+  const [isPending, setIsPending] = useTransition();
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -57,8 +68,35 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
     shouldUnregister: true,
   });
 
-  const onSubmit = (data: FormSchema) => {
+  const onSubmit = async (data: FormSchema) => {
     console.log(data);
+
+    const consumptionMethod = searchParams.get('consumptionMethod');
+    console.log(consumptionMethod, slug);
+
+    if (!consumptionMethod || !slug) {
+      return;
+    }
+
+    try {
+      startTransition(async () => {
+        await createOrder({
+          customerName: data.name,
+          customerEmail: data.email,
+          customerPhone: data.phone,
+          customerCpf: data.cpf,
+          products: products,
+          restaurantSlug: slug as string,
+          consumptionMethod: consumptionMethod as ConsumptionMethod,
+        });
+        onOpenChange(false);
+        toast.success('Pedido finalizado com sucesso', {
+          duration: 5000, // 5 seconds
+        });
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -132,7 +170,14 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
                 )}
               />
               <DrawerFooter>
-                <Button className='rounded-full' type='submit'>
+                <Button
+                  className='rounded-full'
+                  type='submit'
+                  disabled={isPending}
+                >
+                  {isPending && (
+                    <Loader2Icon className='ml-2 h-4 w-4 animate-spin' />
+                  )}
                   Finalizar pedido
                 </Button>
                 <DrawerClose asChild>
