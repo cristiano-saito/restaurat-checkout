@@ -27,9 +27,9 @@ const CartProductItem = ({ product }: CartItemProps) => {
   };
 
   return (
-    <div className='flex items-center justify-between pb-3'>
-      <div className='flex items-center gap-1'>
-        <div className='relative h-20 w-20 rounded-xl bg-gray-200'>
+    <div className='flex items-center justify-between'>
+      <div className='flex w-full items-center justify-between gap-3'>
+        <div className='relative h-20 w-[20%] rounded-xl bg-gray-100'>
           <Image
             src={product.imageUrl}
             alt={product.name}
@@ -37,14 +37,14 @@ const CartProductItem = ({ product }: CartItemProps) => {
             className='rounded-lg object-contain'
           />
         </div>
-        <div className='space-y-1'>
-          <p className='max-w-[80%] truncate text-ellipsis text-xs'>
+        <div className='w-[60%] space-y-1'>
+          <p className='max-w-[90%] truncate text-ellipsis text-xs'>
             {product.name}
           </p>
           <p className='text-sm font-semibold'>
             {formatCurrency(product.price)}
           </p>
-          <div className='flex items-center gap-1 text-center'>
+          <div className='flex w-[20%] items-center gap-1 text-center'>
             <Button
               variant='default'
               className='h-7 w-7 rounded-lg'
@@ -62,15 +62,16 @@ const CartProductItem = ({ product }: CartItemProps) => {
             </Button>
           </div>
         </div>
-      </div>
-      <div className='flex items-center gap-1'>
-        <Button
-          variant='destructive'
-          className='h-7 w-7 rounded-lg'
-          onClick={handleRemoveAllFromCart}
-        >
-          <TrashIcon />
-        </Button>
+        <div className='flex w-[10%] items-center gap-1'>
+          <Button
+            variant='outline'
+            className='h-7 w-7 rounded-lg'
+            size='icon'
+            onClick={handleRemoveAllFromCart}
+          >
+            <TrashIcon />
+          </Button>
+        </div>
       </div>
     </div>
   );

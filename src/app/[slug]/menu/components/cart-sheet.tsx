@@ -14,23 +14,23 @@ import { CartContext } from '../contexts/cart';
 import CartItem from './cart-product-item';
 import FinishOrderDialog from './finish-order-dialog';
 
-const CardSheet = () => {
+const CartSheet = () => {
   const { isOpen, products, toggleCart } = useContext(CartContext);
   const [finishOrderDialogIsOpen, setFinishOrderDialogIsOpen] = useState(false);
   return (
     <Sheet open={isOpen} onOpenChange={toggleCart}>
-      <SheetContent className='w-[90%]'>
+      <SheetContent className='w-[80%]'>
         <SheetHeader>
           <SheetTitle className='text-left'>Carrinho</SheetTitle>
         </SheetHeader>
-        <div className='flex h-[calc(100%-100px)] flex-col py-5'>
+        <div className='flex h-full w-full flex-col py-5'>
           <div className='flex-auto'>
             {products.map(product => (
               <CartItem key={product.id} product={product} />
             ))}
           </div>
           <Card>
-            <CardContent className='p-5'>
+            <CardContent className='mb-6'>
               <div className='flex justify-between'>
                 <p className='text-sm text-muted-foreground'>Total</p>
                 <p className='text-sm font-semibold'>
@@ -60,4 +60,4 @@ const CardSheet = () => {
   );
 };
 
-export default CardSheet;
+export default CartSheet;

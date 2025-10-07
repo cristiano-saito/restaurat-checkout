@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { formatCurrency } from '@/helpers-currency';
 
-import CardSheet from '../../components/card-sheet';
+import CartSheet from '../../components/cart-sheet';
 import { CartContext } from '../../contexts/cart';
 
 interface ProductDetailsProps {
@@ -25,7 +25,7 @@ interface ProductDetailsProps {
 }
 
 const ProductDetails = ({ product }: ProductDetailsProps) => {
-  const { isOpen, toggleCart, addToCart } = useContext(CartContext);
+  const { toggleCart, addToCart } = useContext(CartContext);
   const [quantity, setQuantity] = useState(1);
 
   // Reset quantity when product changes
@@ -107,7 +107,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
           Adicionar ao carrinho
         </Button>
       </div>
-      <CardSheet isOpen={isOpen} toggleCart={toggleCart} />
+      <CartSheet />
     </>
   );
 };
