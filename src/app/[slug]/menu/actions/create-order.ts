@@ -1,5 +1,6 @@
 'use server';
 import { ConsumptionMethod, OrderStatus, UserRole } from '@prisma/client';
+import { redirect } from 'next/navigation';
 
 import { db } from '@/lib/prisma';
 
@@ -62,10 +63,11 @@ export const createOrder = async (order: CreateOrderInput) => {
       },
     },
   };
-  const createdOrder = await db.order.create({
+  await db.order.create({
     data: newOrder,
   });
-  return createdOrder;
+  //return createdOrder;
+  redirect(`/${order.restaurantSlug}/orders?cpf=${order.customerCpf}`);
 };
 
 const createUser = async (user: {

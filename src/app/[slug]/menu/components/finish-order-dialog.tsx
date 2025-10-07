@@ -56,7 +56,7 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
   const { products } = useContext(CartContext);
   const searchParams = useSearchParams();
   const { slug } = useParams<{ slug: string }>();
-  const [isPending, setIsPending] = useTransition();
+  const [isPending] = useTransition();
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -69,10 +69,7 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
   });
 
   const onSubmit = async (data: FormSchema) => {
-    console.log(data);
-
     const consumptionMethod = searchParams.get('consumptionMethod');
-    console.log(consumptionMethod, slug);
 
     if (!consumptionMethod || !slug) {
       return;
