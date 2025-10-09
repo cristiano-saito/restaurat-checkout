@@ -1,7 +1,8 @@
 'use server';
 import { ConsumptionMethod, OrderStatus, UserRole } from '@prisma/client';
-import { redirect } from 'next/navigation';
 
+// import { revalidatePath } from 'next/cache';
+// import { redirect } from 'next/navigation';
 import { db } from '@/lib/prisma';
 
 import { removeCpfPunctuation } from '../helpers/cpf';
@@ -63,11 +64,12 @@ export const createOrder = async (order: CreateOrderInput) => {
       },
     },
   };
-  await db.order.create({
+  return await db.order.create({
     data: newOrder,
   });
+  // revalidatePath(`/${order.restaurantSlug}/orders`);
   //return createdOrder;
-  redirect(`/${order.restaurantSlug}/orders?cpf=${order.customerCpf}`);
+  //redirect(`/${order.restaurantSlug}/orders?cpf=${order.customerCpf}`);
 };
 
 const createUser = async (user: {

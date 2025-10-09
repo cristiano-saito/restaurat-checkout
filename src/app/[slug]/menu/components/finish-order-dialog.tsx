@@ -1,11 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ConsumptionMethod } from '@prisma/client';
+import { loadStripe } from '@stripe/stripe-js';
 import { Loader2Icon } from 'lucide-react';
 import { useParams, useSearchParams } from 'next/navigation';
-import { startTransition, useContext, useTransition } from 'react';
+import { useContext, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { PatternFormat } from 'react-number-format';
-import { toast } from 'sonner';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
@@ -30,9 +30,9 @@ import {
 import { Input } from '@/components/ui/input';
 
 import { createOrder } from '../actions/create-order';
+import createStripeCheckout from '../actions/create-stripe-checkout';
 import { CartContext } from '../contexts/cart';
 import { isValidCpf, removeCpfPunctuation } from '../helpers/cpf';
-
 interface FinishOrderDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -76,20 +76,34 @@ const FinishOrderDialog = ({ open, onOpenChange }: FinishOrderDialogProps) => {
     }
 
     try {
-      startTransition(async () => {
-        await createOrder({
-          customerName: data.name,
-          customerEmail: data.email,
-          customerPhone: data.phone,
-          customerCpf: data.cpf,
-          products: products,
-          restaurantSlug: slug as string,
-          consumptionMethod: consumptionMethod as ConsumptionMethod,
-        });
-        onOpenChange(false);
-        toast.success('Pedido finalizado com sucesso', {
-          duration: 5000, // 5 seconds
-        });
+      const order = await createOrder({
+        customerName: data.name,
+        customerEmail: data.email,
+        customerPhone: data.phone,
+        customerCpf: data.cpf,
+        products: products,
+        restaurantSlug: slug as string,
+        consumptionMethod: consumptionMethod as ConsumptionMethod,
+      });
+      const result = await createStripeCheckout({
+        products,
+        slug,
+        orderId: order.id,
+      });
+      if (!result) {
+        return;
+      }
+      const { sessionId } = result;
+
+      if (!process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY) {
+        throw new Error('NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not set');
+      }
+      const stripe = await loadStripe(
+        process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY as string
+      );
+
+      stripe?.redirectToCheckout({
+        sessionId: sessionId as string,
       });
     } catch (error) {
       console.error(error);
